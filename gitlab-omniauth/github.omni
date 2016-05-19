@@ -1,0 +1,15 @@
+# gitlab_rails['omniauth_allow_single_sign_on'] = ['saml']
+# gitlab_rails['omniauth_auto_sign_in_with_provider'] = 'saml'
+# gitlab_rails['omniauth_block_auto_created_users'] = true
+# gitlab_rails['omniauth_auto_link_ldap_user'] = false
+# gitlab_rails['omniauth_auto_link_saml_user'] = false
+ gitlab_rails['omniauth_providers'] = [
+   {
+     "name" => "github",
+     "app_id" => "APP_ID",
+     "app_secret" => "APP_SECRET",
+      "url" => "https://github.com/",
+      "args" => { "scope" => "user:email" }
+     #"args" => { "access_type" => "offline", "approval_prompt" => "" }
+   }
+ ]

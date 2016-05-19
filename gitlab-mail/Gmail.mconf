@@ -1,0 +1,41 @@
+# Configure incomming email (IMAP)
+# See http://docs.gitlab.com/ce/incoming_email/README.html for detail
+# Configuration for Gmail / Google Apps, assumes mailbox gitlab-incoming@gmail.com
+gitlab_rails['incoming_email_enabled'] = true
+
+# The email address including the `%{key}` placeholder that will be replaced to reference the item being replied to.
+# The placeholder can be omitted but if present, it must appear in the "user" part of the address (before the `@`).
+gitlab_rails['incoming_email_address'] = "YOUR_EMAIL_NAME+%{key}@gmail.com"
+
+# Email account username
+# With third party providers, this is usually the full email address.
+# With self-hosted email servers, this is usually the user part of the email address.
+gitlab_rails['incoming_email_email'] = "YOUR_EMAIL_ADDRESS"
+# Email account password
+gitlab_rails['incoming_email_password'] = "YOUR_EMAIL_PASSWORD"
+
+# IMAP server host
+gitlab_rails['incoming_email_host'] = "imap.gmail.com"
+# IMAP server port
+gitlab_rails['incoming_email_port'] = 993
+# Whether the IMAP server uses SSL
+gitlab_rails['incoming_email_ssl'] = true
+# Whether the IMAP server uses StartTLS
+gitlab_rails['incoming_email_start_tls'] = false
+
+# The mailbox where incoming mail will end up. Usually "inbox".
+gitlab_rails['incoming_email_mailbox_name'] = "inbox"
+
+
+# Configure SMTP
+# See  https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/smtp.md for detail
+gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.gmail.com"
+gitlab_rails['smtp_port'] = 587
+gitlab_rails['smtp_user_name'] = "YOUR_EMAIL_ADDRESS"
+gitlab_rails['smtp_password'] = "YOUR_EMAIL_PASSWORD"
+gitlab_rails['smtp_domain'] = "smtp.gmail.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_tls'] = false
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer' # Can be: 'none', 'peer', 'client_once', 'fail_if_no_peer_cert', see http://api.rubyonrails.org/classes/ActionMailer/Base.html
