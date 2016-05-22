@@ -23,9 +23,11 @@ question() {
 replaceSSL() {
     ssl_cert=$1
     ssl_priv=$2
-    file=$3
+    ssl_ca=$3
+    file=$4
     sudo sed -i "s|PATH_TO_CERT|$ssl_cert|g" $file 
     sudo sed -i "s|PATH_TO_KEY|$ssl_priv|g" $file 
+    sudo sed -i "s|PATH_TO_CA|$ssl_ca|g" $file 
 }
 replaceFQDN() {
     realfqdn=$1
