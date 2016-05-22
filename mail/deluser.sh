@@ -12,3 +12,5 @@ Query="delete from virtual_users where email='$mailAddr';"
 
 echo $Query > ./tmp/query.sql
 mysql --user=usermail --password=$mailDBPwd servermail < ./tmp/query.sql
+
+rm -rf ./tmp

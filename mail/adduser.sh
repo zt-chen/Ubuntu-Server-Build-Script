@@ -21,3 +21,4 @@ VALUES
 ('2', ENCRYPT('$mailUserPwd', CONCAT('\$6$', SUBSTRING(SHA(RAND()), -16))), '$mailUserName@$mailFDNQ');"
 echo $Query > ./tmp/query.sql
 mysql --user=usermail --password=$mailDBPwd servermail < ./tmp/query.sql
+rm -rf ./tmp

@@ -169,8 +169,20 @@ sudo chown -R vmail:dovecot /etc/dovecot/conf.d/
 # restart dovecot 
 sudo service dovecot restart
 
+sudo rm -rf ./tmp
 #########################
 # configure SpamAssassin
 # sudo apt-get install spamassassin spamc
 # sudo adduser spamd --disabled-login
 
+echo -e "-----------------------------------------"
+echo -e "THIS NOTICE WILL ONLY SHOW ONCE!"
+echo -e "Please remember these information:"
+echo -e "For mail database:"
+echo -e "DB name:       servermail"
+echo -e "DB username:   usermail"
+echo -e "DB password:   $mailDBPwd"
+echo -e "For your first email account:"
+echo -e "Full account name: $mailUserName@$mailFDNQ"
+echo -e "Password: $mailUserPwd"
+echo -e "-----------------------------------------"
