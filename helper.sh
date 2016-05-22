@@ -20,7 +20,7 @@ question() {
         return 0
     fi
 }
-replaceSSL() {
+replaceSSLCA() {
     ssl_cert=$1
     ssl_priv=$2
     ssl_ca=$3
@@ -28,6 +28,13 @@ replaceSSL() {
     sudo sed -i "s|PATH_TO_CERT|$ssl_cert|g" $file 
     sudo sed -i "s|PATH_TO_KEY|$ssl_priv|g" $file 
     sudo sed -i "s|PATH_TO_CA|$ssl_ca|g" $file 
+}
+replaceSSLCA() {
+    ssl_cert=$1
+    ssl_priv=$2
+    file=$3
+    sudo sed -i "s|PATH_TO_CERT|$ssl_cert|g" $file 
+    sudo sed -i "s|PATH_TO_KEY|$ssl_priv|g" $file 
 }
 replaceFQDN() {
     realfqdn=$1

@@ -64,6 +64,18 @@ if [ $installGitlab -eq 1 ]; then
         # ask for apache version
         question "Are you running apache 2.4? y for 2.4, n for 2.2"
         apacheVersion=$?    # 1 for 2.4, 0 for 2.2
+        question "Do you want to configure ssl for gitlab?"
+        gitssl=$?
+        if [ $gitssl -eq 1 ]; then
+            echo -e "Please input the path to ssl_cert you want to use for gitlab"
+            read ssl_cert
+
+            echo -e "Please input the path to ssl private key you want to use for gitlab"
+            read ssl_priv
+
+            echo -e "Please input the path to CA file"
+            read ssl_ca
+        fi
     fi
     # Configure mail for gitlab-ce
     echo "This will configure gitlab to use gmail to reply by email."
@@ -133,10 +145,20 @@ if [ $installGitlab -eq 1 ]; then
         # Add apache2 reconfigure file for gitlab
         # echo "Suppose you are running apache 2.4, if not, goto https://gitlab.com/gitlab-org/gitlab-recipes/tree/master/web-server/apache to download the right apache conf"
         if [ $apacheVersion -eq 1 ]; then
-            sudo cp ./gitlab-apache/gitlab-omnibus-apache24.conf /etc/apache2/sites-available/
+            if [ $gitssl -eq 1 ]; then #user want ssl
+                sudo a2enmod ssl
+                sudo a2enmod headers
+                sudo cp ./gitlab-apache/gitlab-omnibus-ssl-apache24.conf /etc/apache2/sites-available/
+                replaceFQDN $gitfqdn /etc/apache2/sites-available/gitlab-omnibus-ssl-apache24.conf 
+                replaceSSLCA $ssl_cert $ssl_priv $ssl_ca /etc/apache2/sites-available/gitlab-omnibus-ssl-apache24.conf 
+                sudo sed -i "s|http://$fqdn|https://$gitfqdn|g" /etc/gitlab/gitlab.rb
+                sudo ln -s ../sites-available/gitlab-omnibus-ssl-apache24.conf /etc/apache2/sites-enabled/gitlab.conf
+            else
+                sudo cp ./gitlab-apache/gitlab-omnibus-apache24.conf /etc/apache2/sites-available/
 
-            sudo sed -i "s/YOUR_SERVER_FQDN/$gitfqdn/g" /etc/apache2/sites-available/gitlab-omnibus-apache24.conf
-            sudo ln -s ../sites-available/gitlab-omnibus-apache24.conf /etc/apache2/sites-enabled/gitlab.conf
+                replaceFQDN $gitfqdn /etc/apache2/sites-available/gitlab-omnibus-apache24.conf
+                sudo ln -s ../sites-available/gitlab-omnibus-apache24.conf /etc/apache2/sites-enabled/gitlab.conf
+            fi
         else
             echo "This script doesn't not support apache 2.2 yet, plaese setup apache manually."
         fi
@@ -149,7 +171,8 @@ if [ $installGitlab -eq 1 ]; then
         sudo mkdir -p /var/log/httpd/logs
         sudo service apache2 start
     fi
-
+    # replace fqdn using gitfqdn for repo path
+    sudo sed -i "s|$fqdn|$gitfqdn|g" /etc/gitlab/gitlab.rb
     # Configure mail for gitlab-ce
     if [ $confGitMail -eq 1 ]; then
         # modify the configuration file for email
