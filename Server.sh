@@ -1,26 +1,5 @@
 # !/bin/bash
-# Helper function for check user if want to install something
-installQ() {
-    echo -e "Do you want to install $1? (y/n)"
-    read userinput < /dev/tty
-    if [ "$userinput" == "y" ]; then
-        return 1
-    else
-        return 0
-    fi
-}
-
-# Helper function for question
-question() {
-    echo -e "$1 (y/n)"
-    read userinput < /dev/tty
-    if [ "$userinput" == "y" ]; then
-        return 1
-    else
-        return 0
-    fi
-}
-#########################################################
+source helper.sh
 # update system
 echo -e "To continue, I will upgrade your system first."
 echo -e "Continue? (y/n)"
@@ -30,8 +9,6 @@ if [ "$userinput" != "y" ]; then
 fi
 sudo apt-get update
 sudo apt-get upgrade
-# make a temporary directory
-mkdir tmp
 ########################################################
 # Hostname: 
 # etc/hosts 127.0.0.1 eu.chenzitai.com eu.localhost
@@ -68,61 +45,61 @@ fi
 echo -e "If you install this, nginx, postgresql and postfix will also be installed."
 installQ gitlab-ce
 installGitlab=$?
-echo "Please input the FDNQ you want gitlab to run with:"
-read gitfqdn
-question "Are you in China?"    # Check if user is in China
-inChina=$?
-question "Do you want to use apache2(need to be installed before this) instead of nginx?"
-useApache2=$?
-if [ $useApache2 -eq 1 ]; then
-    # ask for apache2 user name
-    apacheUserName="www-data"
-    echo -e "Is your apache2 username $apacheUserName? If not, please put your user name here."
-    read temp
-    if [ ! -z $temp ]; then
-        apacheUserName=$temp
-    fi
-    # ask for apache version
-    question "Are you running apache 2.4? y for 2.4, n for 2.2"
-    apacheVersion=$?    # 1 for 2.4, 0 for 2.2
-fi
-# Configure mail for gitlab-ce
-echo "This will configure gitlab to use gmail to reply by email."
-question "Do you want to configure reply by E-Mail for gitlab? "
-confGitMail=$?
-if [ $confGitMail -eq 1 ]; then
-    confirm=0
-    while [ $confirm -ne 1 ]
-    do
-        # Get user input
-        echo -e "Please input your email address:"
-        read EmailAddr < /dev/tty
-        echo -e "Please input your email password:"
-        read EmailPwd < /dev/tty
-        Email_UN=`echo "$EmailAddr" | awk -F '@' '{print $1}'`
-        # Double check
-        echo -n "Email address: "
-        echo $EmailAddr
-        echo -n "Email password: "
-        echo $EmailPwd
-        question "Are these configurations for email right? "
-        confirm=$?
-    done
-fi
-# configure omniAuth for gitlab and github
-echo -e "To enable omniAuth for github, firstly you need to get you app key from github.com"
-question "Do you want to enable omniAuth to connect to github?"
-confGitOmni=$?
-if [ $confGitOmni -eq 1 ]; then
-    echo -e "Please input your app_id get form github.com"
-    read omni_app_id
-    echo -e "Please input your app_secret get form github.com"
-    read omni_app_secret
-fi
-
-# End of install questions for gitlab-ce
 
 if [ $installGitlab -eq 1 ]; then
+    echo "Please input the FDNQ you want gitlab to run with:"
+    read gitfqdn
+    question "Are you in China?"    # Check if user is in China
+    inChina=$?
+    question "Do you want to use apache2(need to be installed before this) instead of nginx?"
+    useApache2=$?
+    if [ $useApache2 -eq 1 ]; then
+        # ask for apache2 user name
+        apacheUserName="www-data"
+        echo -e "Is your apache2 username $apacheUserName? If not, please put your user name here."
+        read temp
+        if [ ! -z $temp ]; then
+            apacheUserName=$temp
+        fi
+        # ask for apache version
+        question "Are you running apache 2.4? y for 2.4, n for 2.2"
+        apacheVersion=$?    # 1 for 2.4, 0 for 2.2
+    fi
+    # Configure mail for gitlab-ce
+    echo "This will configure gitlab to use gmail to reply by email."
+    question "Do you want to configure reply by E-Mail for gitlab? "
+    confGitMail=$?
+    if [ $confGitMail -eq 1 ]; then
+        confirm=0
+        while [ $confirm -ne 1 ]
+        do
+            # Get user input
+            echo -e "Please input your email address:"
+            read EmailAddr < /dev/tty
+            echo -e "Please input your email password:"
+            read EmailPwd < /dev/tty
+            Email_UN=`echo "$EmailAddr" | awk -F '@' '{print $1}'`
+            # Double check
+            echo -n "Email address: "
+            echo $EmailAddr
+            echo -n "Email password: "
+            echo $EmailPwd
+            question "Are these configurations for email right? "
+            confirm=$?
+        done
+    fi
+    # configure omniAuth for gitlab and github
+    echo -e "To enable omniAuth for github, firstly you need to get you app key from github.com"
+    question "Do you want to enable omniAuth to connect to github?"
+    confGitOmni=$?
+    if [ $confGitOmni -eq 1 ]; then
+        echo -e "Please input your app_id get form github.com"
+        read omni_app_id
+        echo -e "Please input your app_secret get form github.com"
+        read omni_app_secret
+    fi
+    # End of install questions for gitlab-ce
+
     # install gitlab-ce
     Path_gitlabrb=/etc/gitlab/gitlab.rb
     sudo service apache2 stop       # stop apache2 for a while to avoid confiltion
@@ -176,7 +153,7 @@ if [ $installGitlab -eq 1 ]; then
     # Configure mail for gitlab-ce
     if [ $confGitMail -eq 1 ]; then
         # modify the configuration file for email
-        
+
         cp ./gitlab-mail/Gmail.mconf ./tmp/mail.conf
         sed -i "s/YOUR_EMAIL_ADDRESS/$EmailAddr/g" ./tmp/mail.conf
         sed -i "s/YOUR_EMAIL_PASSWORD/$EmailPwd/g" ./tmp/mail.conf
@@ -216,11 +193,11 @@ echo -e "And Please remember the password you setup for Mysql."
 question "Do you want to install Mysql? "
 installMysql=$?
 if [ $installMysql -eq 1 ]; then
-	# install mysql
-	sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql
+    # install mysql
+    sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql
 
-	# for the sake of security
-	sudo mysql_secure_installation
+    # for the sake of security
+    sudo mysql_secure_installation
 fi
 
 #######################################################
@@ -230,7 +207,7 @@ echo -e "If you want to install Wordpress, please install PHP5."
 question "Do you want to install PHP5?"
 installPHP=$?
 if [ $installPHP -eq 1 ]; then
-	sudo apt-get install php5 libapache2-mod-php5 php5-mcrypt
+    sudo apt-get install php5 libapache2-mod-php5 php5-mcrypt
 fi
 
 # Add php5 wo directory index (activated by default)
