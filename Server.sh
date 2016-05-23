@@ -121,7 +121,7 @@ if [ $installGitlab -eq 1 ]; then
     # Add the GitLab package server and install the package
     if [ $inChina -eq 1 ]; then # If user is in China, use a mirror
         curl https://packages.gitlab.com/gpg.key 2> /dev/null | sudo apt-key add - &>/dev/null
-        sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu trusty main" >> /etc/apt/sources.list.d/gitlab-ce.list
+        sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu trusty main" > /etc/apt/sources.list.d/gitlab-ce.list
         sudo apt-get update
     else
         curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
@@ -206,7 +206,11 @@ if [ $installGitlab -eq 1 ]; then
 fi
 
 
-
+#Gitlab unicorn
+# https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/unicorn.md#unicorn-settings
+#If you need to adjust the Unicorn timeout or the number of workers you can use the following settings in /etc/gitlab/gitlab.rb. Run sudo gitlab-ctl reconfigure for the change to take effect.
+#    unicorn['worker_processes'] = 3
+#    unicorn['worker_timeout'] = 60
 
 #######################################################
 # Install mysql

@@ -29,7 +29,7 @@ replaceSSLCA() {
     sudo sed -i "s|PATH_TO_KEY|$ssl_priv|g" $file 
     sudo sed -i "s|PATH_TO_CA|$ssl_ca|g" $file 
 }
-replaceSSLCA() {
+replaceSSL() {
     ssl_cert=$1
     ssl_priv=$2
     file=$3
