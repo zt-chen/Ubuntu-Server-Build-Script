@@ -21,6 +21,7 @@ Useful scripts for setting up a brand new server and install applications (Gitla
   需要在GitHub上先获取APPID等信息
 
 * fiiinx
+
   通过Fiinx进行服务器备份/还原/迁移
 
 ## 注意事项
