@@ -11,11 +11,13 @@ Suppose you are going to backup/recovery/migration /dev/vda1 on disk /dev/vda
 ## 通过ssh备份 Backup over ssh
  
 1. Give root passwd
+⋅⋅⋅
 ```bash
 passwd
 ```
 
 2. Start ssh
+⋅⋅⋅
 ```bash
 sudo service ssh start
 ```
