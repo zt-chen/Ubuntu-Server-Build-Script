@@ -63,6 +63,12 @@ fi
 # Enable extensions
 # for mysql
 
+####################################################
+# For china users need to add posgre sql deb
+sudo echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+
 
 #######################################################
 # Install owncloud
@@ -72,7 +78,7 @@ installOwncloud=$?
 
 if [ $installOwncloud -eq 1 ]; then
     # Add key to apt
-    wget -nv https://download.owncloud.org/download/repositories/stable/xUbuntu_14.04/Release.key -O Release.key
+    sudo wget -nv https://download.owncloud.org/download/repositories/stable/xUbuntu_14.04/Release.key -O Release.key
     sudo apt-key add - < Release.key
     # Add repo
     sudo sh -c "echo 'deb http://download.owncloud.org/download/repositories/stable/xUbuntu_14.04/ /' >> /etc/apt/sources.list.d/owncloud.list"
