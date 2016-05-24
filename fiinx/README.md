@@ -10,19 +10,19 @@ Suppose you are going to backup/recovery/migration /dev/vda1 on disk /dev/vda
 
 ## 通过ssh备份 Backup over ssh
  
-1. give root passwd
+1. Give root passwd
 ```bash
 passwd
 ```
-2. start ssh
+2. Start ssh
 ```bash
 sudo service ssh start
 ```
-3. mount directory
+3. Mount directory
 ```bash
 mount /dev/vad1 /media/vda1
 ```
-4. backup
+4. Backup
 ```bash
 cd /media/vda1
 sudo tar -cvpz ./ | ssh username@hostname -p port "( cat > ssh_backup.tar.gz )"
