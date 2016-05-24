@@ -10,24 +10,22 @@ Suppose you are going to backup/recovery/migration /dev/vda1 on disk /dev/vda
 
 ## 通过ssh备份 Backup over ssh
  
-1. Give root passwd
-⋅⋅⋅
+STEP1 Give root passwd
 ```bash
 passwd
 ```
 
-2. Start ssh
-⋅⋅⋅
+STEP2 Start ssh
 ```bash
 sudo service ssh start
 ```
 
-3. Mount directory
+STEP3 Mount directory
 ```bash
 mount /dev/vad1 /media/vda1
 ```
 
-4. Backup
+STEP4 Backup
 ```bash
 cd /media/vda1
 sudo tar -cvpz ./ | ssh username@hostname -p port "( cat > ssh_backup.tar.gz )"
@@ -51,24 +49,24 @@ Suppost you want to migrate from server A to server B
 
 ### B服务器 Server B
 
-1. mount directory
+STEP1 mount directory
 ```bash
 mount /dev/vda1 /media/vda1
 ```
 
-2. Start listen
+STEP2 Start listen
 ```bash
 nc -l 1024 | sudo tar -xvpzf - -C /media/vda1 --numeric-owner
 ```
 ### A服务器 Server A
 
-1. mount directory
+STEP1 mount directory
 
 ```bash
 mount /dev/vda1 /media/vda1
 ```
 
-2. send the whole system
+STEP2 send the whole system
 ```bash
 cd /media/vda1
 tar -cvpz ./ | nc -q 0 RECEIVING_HOST 1024
@@ -88,12 +86,12 @@ nc transfers files without encryption, so this is only useful for migration unde
 
 **After migration, the UUID information in /etc/fatab need to be changed for the new server**
 
-1. Get UUID information
+STEP1 Get UUID information
 ```bash
 ls -l /dev/disk/by-uuid/
 ```
 
-2. Modify /etc/fstab
+STEP2 Modify /etc/fstab
 ```bash
 sudo vi /etc/fstab
 ```
