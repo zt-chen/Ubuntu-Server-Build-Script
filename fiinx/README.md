@@ -14,14 +14,17 @@ Suppose you are going to backup/recovery/migration /dev/vda1 on disk /dev/vda
 ```bash
 passwd
 ```
+
 2. Start ssh
 ```bash
 sudo service ssh start
 ```
+
 3. Mount directory
 ```bash
 mount /dev/vad1 /media/vda1
 ```
+
 4. Backup
 ```bash
 cd /media/vda1
@@ -50,6 +53,7 @@ Suppost you want to migrate from server A to server B
 ```bash
 mount /dev/vda1 /media/vda1
 ```
+
 2. Start listen
 ```bash
 nc -l 1024 | sudo tar -xvpzf - -C /media/vda1 --numeric-owner
