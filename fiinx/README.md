@@ -73,11 +73,13 @@ tar -cvpz ./ | nc -q 0 RECEIVING_HOST 1024
 *Security Concern*
 
 由于这种方式使用nc命令，所以数据在网络传输过程中未经加密，此种办法适用于私有网络环境
+
 nc transfers files without encryption, so this is only useful for migration under private network
 
 ### 迁移之后 After Migration
 
 *在迁移后，需要修改/etc/fstab 中的UUID信息以适应新环境*
+
 *After migration, the UUID information in /etc/fatab need to be changed for the new server*
 
 1. Get UUID information
@@ -91,6 +93,7 @@ sudo vi /etc/fstab
 ```
 
 *可能需要重新设置引导分区*
+
 *Maybe you need to set boot flag for you new disk*
 ```bash
 fdisk /dev/vda
@@ -104,6 +107,7 @@ Use 'p' command to list partions
 Use 'a' command to set bootable partion
 
 *可能需要恢复GRUB*
+
 *Maybe you need to restore GRUB*
 
 ```bash
