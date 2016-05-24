@@ -1,10 +1,10 @@
-# 备份Linux 系统 Backup Whole Linux
+# 备份/恢复/迁移Linux系统 Backup Whole Linux
 
 以下命令需在fillinx上执行
 
 These command need to be executed on fillinx
 
-假设要备份/恢复/移植的分区为/dev/vda1并在硬盘/dev/vda上
+假设要备份/恢复/迁移的分区为/dev/vda1并在硬盘/dev/vda上
 
 Suppose you are going to backup/recovery/migration /dev/vda1 on disk /dev/vda
 
