@@ -80,7 +80,7 @@ tar -cvpz ./ | nc -q 0 RECEIVING_HOST 1024
 
 nc transfers files without encryption, so this is only useful for migration under private network
 
-### 迁移之后 After Migration
+## 迁移之后 After Migration
 
 **在迁移后，需要修改/etc/fstab 中的UUID信息以适应新环境**
 
