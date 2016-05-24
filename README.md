@@ -20,8 +20,7 @@ Useful scripts for setting up a brand new server and install applications (Gitla
   用于设置 gitlab omniauth的脚本， 目前本脚本仅支持GitHub
   需要在GitHub上先获取APPID等信息
 
-* fiiinx
-
+* fiiinx 
   通过Fiinx进行服务器备份/还原/迁移
 
 ## 注意事项
