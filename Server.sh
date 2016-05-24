@@ -120,13 +120,16 @@ if [ $installGitlab -eq 1 ]; then
 
     # Add the GitLab package server and install the package
     if [ $inChina -eq 1 ]; then # If user is in China, use a mirror
-        curl https://packages.gitlab.com/gpg.key 2> /dev/null | sudo apt-key add - &>/dev/null
-        sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu trusty main" > /etc/apt/sources.list.d/gitlab-ce.list
-        sudo apt-get update
+        #curl https://packages.gitlab.com/gpg.key 2> /dev/null | sudo apt-key add - &>/dev/null
+        #sudo echo "deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu trusty main" > /etc/apt/sources.list.d/gitlab-ce.list
+        #sudo apt-get update
+        curl -sS http://packages.gitlab.cc/install/gitlab-ce/script.deb.sh | sudo bash
+        sudo apt-get install gitlab-ce
+
     else
         curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+        sudo apt-get install gitlab-ce
     fi
-    sudo apt-get install gitlab-ce
 
     sudo sed -i "s/$fdnq/$gitfqdn/g" $Path_gitlabrb
     # Configure and start GitLab
