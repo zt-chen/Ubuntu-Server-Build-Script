@@ -8,21 +8,25 @@
 ## 通过ssh备份 
  
 STEP1 Give root passwd
+
 ```bash
 passwd
 ```
 
 STEP2 Start ssh
+
 ```bash
 sudo service ssh start
 ```
 
 STEP3 Mount directory
+
 ```bash
 mount /dev/vad1 /media/vda1
 ```
 
 STEP4 Backup
+
 ```bash
 cd /media/vda1
 sudo tar -cvpz ./ | ssh username@hostname -p port "( cat > ssh_backup.tar.gz )"
@@ -44,14 +48,17 @@ ssh -CfNR 7777:losalhost:22 root@SERVER_NAME
 ### B服务器
 
 STEP1 mount directory
+
 ```bash
 mount /dev/vda1 /media/vda1
 ```
 
 STEP2 Start listen
+
 ```bash
 nc -l 1024 | sudo tar -xvpzf - -C /media/vda1 --numeric-owner
 ```
+
 ### A服务器
 
 STEP1 mount directory
@@ -61,6 +68,7 @@ mount /dev/vda1 /media/vda1
 ```
 
 STEP2 send the whole system
+
 ```bash
 cd /media/vda1
 tar -cvpz ./ | nc -q 0 RECEIVING_HOST 1024
@@ -76,32 +84,28 @@ tar -cvpz ./ | nc -q 0 RECEIVING_HOST 1024
 **在迁移后，需要修改/etc/fstab 中的UUID信息以适应新环境**
 
 STEP1 Get UUID information
+
 ```bash
 ls -l /dev/disk/by-uuid/
 ```
 
 STEP2 Modify /etc/fstab
+
 ```bash
 sudo vi /etc/fstab
 ```
 
 **可能需要重新设置引导分区**
 
-**Maybe you need to set boot flag for you new disk**
 ```bash
 fdisk /dev/vda
 ```
-使用'p'命令显示分区列表
 
-Use 'p' command to list partions
+使用'p'命令显示分区列表
 
 使用'a'命令设置启动分区
 
-Use 'a' command to set bootable partion
-
 **可能需要恢复GRUB**
-
-**Maybe you need to restore GRUB**
 
 ```bash
 sudo -s
@@ -110,7 +114,7 @@ chroot /media/whatever
 dpkg-reconfigure grub-pc
 ```
 
-## 参考 Reference
+## 参考
 
 Finnix
 
