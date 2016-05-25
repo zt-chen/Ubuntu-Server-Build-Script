@@ -161,11 +161,11 @@ ssh -CfNR 7777:losalhost:22 root@SERVER_NAME
 
 Then the server can connect to localhost port 7777 to connect to your computer
 
- ## System Migration
+## System Migration
  
  Suppost you want to migrate from server A to server B
  
- ###  Server B
+###  Server B
  
  
 STEP1 mount directory
@@ -178,7 +178,7 @@ STEP2 Start listen
 nc -l 1024 | sudo tar -xvpzf - -C /media/vda1 --numeric-owner
 ```
  
- ###  Server A
+###  Server A
  
 STEP1 mount directory
 
