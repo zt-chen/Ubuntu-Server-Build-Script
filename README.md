@@ -1,3 +1,5 @@
+# Deprecated due to old age - written for ubuntu 14.04
+
 # ServerScripts
 Useful scripts for setting up a brand new server and install applications (Gitlab, wordpress, owncloud)
 
